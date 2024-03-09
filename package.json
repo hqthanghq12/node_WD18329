@@ -1,0 +1,18 @@
+{
+  "name": "wd18329",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "vite": "^4.5.2",
+    "vite-plugin-node": "^3.1.0"
+  }
+}
