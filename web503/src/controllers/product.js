@@ -1,16 +1,16 @@
 // Hiện thị toàn bộ
-export const getProducts = async(req, res)=>{
-    try{
-        const response = await fetch(`http://localhost:3000/products`);
-        const data = await response.json();
-        res.json(data);
-    }catch (error){
-        res.status(400).json({
-            message: "Lỗi r fix men"
-        });
-    }
+// export const getProducts = async(req, res)=>{
+//     try{
+//         const response = await fetch(`http://localhost:3000/products`);
+//         const data = await response.json();
+//         res.json(data);
+//     }catch (error){
+//         res.status(400).json({
+//             message: "Lỗi r fix men"
+//         });
+//     }
 
-}
+// }
 // Hiện thị thông tin sửa
 // app.get('/api/products/:id', async(req, res)=>{
 //     try{
@@ -75,3 +75,37 @@ export const getProducts = async(req, res)=>{
 //         });
 //     }
 // })
+// hiển thị toàn bộ => get
+import Product from "../models/product";
+export const getProducts = async (req, res) => {
+  try {
+    const product = await Product.find();
+    res.json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: "Lỗi r fix men",
+    });
+  }
+};
+// Hiện thị theo id => get
+export const getProduct = async (req, res) => {
+    try {
+      const product = await Product.findById(req.params.id);
+      res.json(product);
+    } catch (error) {
+      res.status(400).json({
+        message: "Lỗi r fix men",
+      });
+    }
+  };
+//   Thêm = post
+export const postProduct = async (req, res) => {
+    try {
+      const product = await Product.create(req.body);
+      res.json(product);
+    } catch (error) {
+      res.status(400).json({
+        message: error,
+      });
+    }
+  };
