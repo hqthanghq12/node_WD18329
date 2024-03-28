@@ -77,6 +77,7 @@
 // })
 // hiển thị toàn bộ => get
 import Product from "../models/product";
+import {ProductShemas} from "../schemas/auth";
 export const getProducts = async (req, res) => {
   try {
     const product = await Product.find();
@@ -101,7 +102,26 @@ export const getProduct = async (req, res) => {
 //   Thêm = post
 export const postProduct = async (req, res) => {
     try {
-      const product = await Product.create(req.body);
+      // Lấy dữ liệu ngdung gửi lên
+      const {code, name, price} = req.body;
+      // Kiểm tra xem ngdung gửi có đúng yêu cầu của shema hay không
+      const {error} = ProductShemas.validate(req.body, {abortEarly: false});
+      if(error){
+        const messages = error.details.map(({message}) => message);
+        return res.status(400).json({
+          messages,
+        });
+      }
+      // Kiểm tra xem code đã tồn tại hay chưa
+      const exitProduct = await Product.findOne({code});
+      if(exitProduct){
+        return res.status(400).json({
+          messages: "Code đã tồn tại",
+        });
+      }
+      const product = await Product.create({
+        code, name, price
+      });
       res.json(product);
     } catch (error) {
       res.status(400).json({
@@ -109,3 +129,25 @@ export const postProduct = async (req, res) => {
       });
     }
   };
+// Sửa = put
+export const putProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body);
+    res.json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: error,
+    });
+  }
+};
+// Xóa = delete
+export const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    res.json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: error,
+    });
+  }
+};
