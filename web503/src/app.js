@@ -12,6 +12,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import productRouter from "./routes/product.router";
+import authRouter from "./routes/auth.route";
 const app = express();
 app.use(express.json());
 app.use(morgan('tiny'));
@@ -27,4 +28,5 @@ async function connectBD(uri){
 }
 connectBD(`mongodb://127.0.0.1:27017/WD18329`);
 app.use('/api/', productRouter);
+app.use('/api/', authRouter);
 export const viteNodeApp = app;

@@ -20,3 +20,6 @@ const ProductSchema = new mongoose.Schema({
 }
 );
 export default mongoose.model("Product", ProductSchema);
+// tạo model user 
+//  name, email, password, age
+//  viết validate cho model
